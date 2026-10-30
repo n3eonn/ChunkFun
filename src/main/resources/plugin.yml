@@ -1,0 +1,47 @@
+name: ChunkFun
+version: '${version}'
+main: dev.chunkfun.ChunkFunPlugin
+api-version: '26.2'
+description: Survive on a single chunk in the void while Overworld, Nether and End rotate every 15 minutes.
+authors: [ChunkFun]
+load: POSTWORLD
+
+# Commands are registered in code with Paper's BasicCommand API (JavaPlugin#registerCommand).
+
+permissions:
+  chunkfun.admin:
+    description: Grants every ChunkFun command.
+    default: op
+    children:
+      chunkfun.command.start: true
+      chunkfun.command.stop: true
+      chunkfun.command.next: true
+      chunkfun.command.event: true
+      chunkfun.command.supply: true
+      chunkfun.command.mob: true
+      chunkfun.command.reload: true
+      chunkfun.command.info: true
+  chunkfun.command.start:
+    description: Start the game.
+    default: op
+  chunkfun.command.stop:
+    description: Stop the game safely.
+    default: op
+  chunkfun.command.next:
+    description: Force the next environment rotation.
+    default: op
+  chunkfun.command.event:
+    description: Trigger a special event.
+    default: op
+  chunkfun.command.supply:
+    description: Spawn an item supply.
+    default: op
+  chunkfun.command.mob:
+    description: Trigger a mob event.
+    default: op
+  chunkfun.command.reload:
+    description: Reload the configuration.
+    default: op
+  chunkfun.command.info:
+    description: Show current game information.
+    default: true

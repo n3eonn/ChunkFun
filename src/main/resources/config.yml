@@ -1,0 +1,208 @@
+# ==============================================================================
+#  ChunkFun configuration
+#  Times are in seconds unless the key ends in "-ticks" (20 ticks = 1 second).
+#  Invalid values are reported in the console and replaced by the default shown here.
+# ==============================================================================
+
+# Used to update older config files automatically. Do not change.
+config-version: 3
+
+game:
+  # Start the game automatically when the server starts.
+  auto-start: false
+  # World players are sent to when the game stops. Empty = the server's main world.
+  lobby-world: ""
+  # On large areas (the main End island) mobs, supplies, TNT and meteors are placed
+  # within this many blocks of a random player instead of anywhere on the island.
+  large-area-focus-radius: 32
+  # true = a world border closes the playable chunk (no flying out, no building outside).
+  # false = players can fly out of the chunk and build in the void around it.
+  world-border: false
+  # Budget for multi-tick world edits made while preparing an environment.
+  world-edit-blocks-per-tick: 8000
+
+worlds:
+  # "random" generates a new seed for every environment (new terrain every visit).
+  # Set a number to regenerate the same terrain every time.
+  seed: random
+
+rotation:
+  # Order of the environments: OVERWORLD, NETHER, END, ANCIENT_CITY.
+  # END rolls between an End City chunk and the main island.
+  order: [OVERWORLD, NETHER, END, ANCIENT_CITY]
+  # How long each environment stays active (8 minutes).
+  duration-seconds: 480
+  # Title countdown before players are moved.
+  countdown-seconds: 5
+  # The next environment is generated this long before the rotation, so it is ready in time.
+  prepare-ahead-seconds: 60
+  # Give up on a generation attempt after this long (it is retried up to 3 times).
+  preparation-timeout-seconds: 180
+
+overworld:
+  # The playable chunk is placed in the nearest of these biomes (they reliably grow trees).
+  preferred-biomes:
+    - minecraft:forest
+    - minecraft:birch_forest
+    - minecraft:flower_forest
+    - minecraft:old_growth_birch_forest
+    - minecraft:taiga
+    - minecraft:cherry_grove
+    - minecraft:dark_forest
+    - minecraft:plains
+  biome-search-radius: 1600
+  # Plant a vanilla tree if the generated chunk has none.
+  guarantee-tree: true
+
+nether:
+  # Structure the Nether chunk is placed on: RANDOM, BASTION or FORTRESS.
+  structure: RANDOM
+  structure-search-radius-chunks: 48
+  # If vanilla generation did not put these in the chunk, embed a small natural vein / lava spring.
+  guarantee-ancient-debris: true
+  guarantee-quartz: true
+  guarantee-lava: true
+
+end:
+  # Chance (0.0 - 1.0) that an End rotation generates the main island with the Ender Dragon.
+  island-chance: 0.25
+  # The main island stays active for 12 minutes.
+  island-duration-seconds: 720
+  # Chunk radius around 0,0 in which the main island is generated (the island ends at ~7 chunks).
+  island-radius-chunks: 10
+  # Chunks generated before players arrive.
+  island-pregenerate-radius-chunks: 8
+  # The normal End chunk is the chunk of an End City's ship that holds the elytra.
+  city-search-attempts: 10
+  city-search-min-distance: 1500
+  city-search-max-distance: 6000
+  # If no city with a ship is found, use a city without a ship (true only logs this).
+  require-ship: true
+
+ancient-city:
+  # How far (in chunks) to look for an Ancient City. They only generate under deep dark biomes.
+  search-radius-chunks: 100
+  # Spawns, mobs, supplies and hazards are placed below this Y, i.e. inside the city, not on the surface above.
+  scan-ceiling-y: -10
+
+mob-events:
+  interval-seconds: 60
+  # Mob type -> probability in percent. Must add up to 100.
+  mobs:
+    CREEPER: 25
+    CHICKEN: 20
+    WARDEN: 10
+    WITHER: 15
+    ZOMBIE: 10
+    COW: 20
+  # Amount -> probability in percent. Must add up to 100.
+  amounts:
+    "1": 10
+    "2": 30
+    "3": 20
+    "5": 25
+    "10": 15
+
+special-events:
+  interval-seconds: 120
+  duration-seconds: 60
+  # Disable an event by setting it to false. Enabled events are chosen with equal chance.
+  enabled:
+    TNT_RAIN: true
+    SHEEP_ADVENTURE: true
+    FLOOD: true
+    METEOR_ATTACK: true
+    LIGHTNING_STORM: true
+    ANVIL_RAIN: true
+    LOW_GRAVITY: true
+  tnt-rain:
+    # One TNT per second.
+    spawn-interval-ticks: 20
+    fuse-ticks: 80
+    # Blocks above the ground the TNT is dropped from (lower under ceilings).
+    drop-height: 30
+  sheep-adventure:
+    count: 10
+    # Damage per ram in half-hearts (before armor).
+    damage: 7.0
+    knockback-horizontal: 1.6
+    knockback-vertical: 0.55
+    # Pathfinding speed multiplier.
+    speed: 1.6
+    ram-cooldown-ticks: 40
+    target-range: 24.0
+    scale: 1.3
+    health: 16.0
+  flood:
+    # Time for the water to rise from the lowest ground to its final level.
+    rise-seconds: 20
+    # Final water level above the average ground height.
+    height-above-surface: 3
+    blocks-per-tick: 2500
+    # Hard limit on water blocks per flood (limits depth on big areas).
+    max-blocks: 250000
+    restore-blocks-per-tick: 8000
+  meteor-attack:
+    spawn-interval-ticks: 30
+    max-active: 4
+    fall-ticks: 30
+    start-height: 45
+    explosion-power: 3.0
+    set-fire: true
+    break-blocks: true
+    lava-chance: 0.5
+  lightning-storm:
+    strike-interval-ticks: 15
+    strikes-per-interval: 1
+  anvil-rain:
+    spawn-interval-ticks: 8
+    drop-height: 25
+    # Damage per block fallen (half-hearts) and the maximum per hit, like vanilla anvils.
+    damage-per-block: 1.5
+    max-damage: 20
+  low-gravity:
+    jump-boost-level: 4
+
+supply:
+  # Lucky blocks land at a random time between these two values.
+  min-interval-seconds: 30
+  max-interval-seconds: 150
+  # Lucky blocks per drop.
+  lucky-block-count: 10
+  # Block used for lucky blocks. It should not generate naturally in any environment
+  # (raw gold blocks never do). Only blocks placed by a drop are lucky.
+  lucky-block: RAW_GOLD_BLOCK
+  # Animated "? LUCKY BLOCK ?" hologram above every block.
+  holograms: true
+  # What breaking a lucky block does (percent, must add up to 100):
+  #   GOOD = loot, NEUTRAL = harmless surprise (XP, fireworks, buff, cake), BAD = trap (TNT, mobs, lightning, ...)
+  outcomes:
+    GOOD: 60
+    NEUTRAL: 15
+    BAD: 25
+  # Loot quality of a GOOD lucky block: LEGENDARY = netherite, RARE = diamond, COMMON = iron.
+  # A lucky block holds about half of a category's set with halved stacks.
+  # Probabilities in percent; must add up to 100.
+  tiers:
+    LEGENDARY: 15
+    RARE: 35
+    COMMON: 50
+
+effects:
+  # All players in the game glow; the outline uses this colour
+  # (black, dark_blue, dark_green, dark_aqua, dark_red, dark_purple, gold, gray, dark_gray, blue, green, aqua,
+  #  red, light_purple, yellow, white).
+  glowing: true
+  glow-color: aqua
+  # Environment-specific particles around players (spores, ash, portal sparkles, sculk souls).
+  ambient-particles: true
+  # Firework bursts on arrival, events and lucky blocks (they never deal damage).
+  fireworks: true
+
+scoreboard:
+  enabled: true
+  update-interval-ticks: 20
+  # MiniMessage format: https://docs.advntr.dev/minimessage/format.html
+  title: "<gold><bold>CHUNKFUN</bold></gold>"
+  # Show the sidebar while no game is running.
+  show-when-stopped: true
